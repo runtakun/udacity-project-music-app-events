@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  notebook:
+    image: jupyter/datascience-notebook
+    ports:
+      - "8888:8888"
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    volumes:
+      - .:/home/jovyan/work
+    command: start-notebook.sh --NotebookApp.token=''
+    depends_on:
+      - cassandra
+    working_dir: /home/jovyan/work
+
+  cassandra:
+    image: cassandra:latest
+    ports:
+      - "9042:9042"
+    volumes:
+      - ./docker/postgres/initdb.d:/docker-entrypoint-initdb.d
+    environment:
+      - CASSANDRA_USER=user
+      - CASSANDRA_PASSWORD=pass
+      - MAX_HEAP_SIZE=256M
+      - HEAP_NEWSIZE=128M
+    restart: always
