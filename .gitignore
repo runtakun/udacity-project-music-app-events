@@ -13,6 +13,5 @@ venv
 pip-selfcheck.json
 __pycache__
 .idea
-event_data/
 event_datafile_new.csv
 .ipynb_checkpoints
